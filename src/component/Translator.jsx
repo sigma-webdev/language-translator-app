@@ -9,6 +9,8 @@ const Translator = () => {
   const [inputLanguage, setInputLanguage] = useState("en-GB"); // set to default code value of english
   const [outputLanguage, setOutputLanguage] = useState("hi-IN"); // set ot default code value of hindi
 
+  const [loading, setLoading] = useState(false);
+
   // inter-change of languages and text
   const handleSwap = () => {
     // interchange text
@@ -36,21 +38,23 @@ const Translator = () => {
   };
 
   const handleTranslator = () => {
+    setLoading(true);
     const url = `https://api.mymemory.translated.net/get?q=${inputText}&langpair=${inputLanguage}|${outputLanguage}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
         setOutputText(data.responseData?.translatedText);
+        setLoading(false);
       });
   };
 
   return (
     <>
-      <section className="w-1/2 mx-auto text-center border rounded shadow-md my-28">
-        <h1> Language Translator API </h1>
+      <section className="w-1/2 mx-auto text-center rounded my-28">
+        <h1 className="text-3xl"> Language Translator API </h1>
         <div className="flex justify-between py-6 ">
           {/* Input language text */}
-          <div className="w-1/2 border">
+          <div className="w-1/2 border rounded-md shadow-md">
             {/* text input area  */}
             <textarea
               name="input-text"
@@ -62,7 +66,7 @@ const Translator = () => {
               rows={8}
             ></textarea>
             {/* language and speak area */}
-            <div className="flex items-center justify-between w-full gap-2 p-2 border">
+            <div className="flex items-center justify-between w-full gap-2 p-2 border rounded-md">
               <img
                 onClick={() => speak(inputText, inputLanguage)}
                 className="rounded-sm cursor-pointer hover:bg-gray-100"
@@ -93,7 +97,7 @@ const Translator = () => {
           />
 
           {/* Output/translated language text */}
-          <div className="w-1/2 border">
+          <div className="w-1/2 border rounded-md">
             {/* text output area */}
             <textarea
               name="output-text"
@@ -104,7 +108,7 @@ const Translator = () => {
               rows={8}
             ></textarea>
             {/* speak and select language area */}
-            <div className="flex items-center justify-between w-full gap-2 p-2 border">
+            <div className="flex items-center justify-between w-full gap-2 p-2 border rounded-md shadow-md">
               <img
                 onClick={() => speak(outputText, outputLanguage)}
                 className="rounded-sm cursor-pointer hover:bg-gray-100"
@@ -127,9 +131,11 @@ const Translator = () => {
             </div>
           </div>
         </div>
-        <button className="w-full p-2 border" onClick={handleTranslator}>
-          {" "}
-          Translate Text{" "}
+        <button
+          className="w-full p-2 text-white bg-gray-700 border rounded-md hover:bg-gray-600"
+          onClick={handleTranslator}
+        >
+          {loading ? "Translating..." : "Translate Text"}
         </button>
       </section>
     </>
