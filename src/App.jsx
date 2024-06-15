@@ -1,5 +1,11 @@
+import Translator from "./component/Translator";
+
 function App() {
-  return <>My language translator app</>;
+  return (
+    <>
+      <Translator />
+    </>
+  );
 }
 
 export default App;
