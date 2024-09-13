@@ -1,9 +1,16 @@
-import Translator from "./component/Translator";
+import { useState } from "react";
+import { TranslatorContext } from "./context/TranslatorContext";
+import Translator from "./pages/Translator";
 
 function App() {
+  const [textToBeTranslated, setTextToBeTranslated] = useState("");
   return (
     <>
-      <Translator />
+      <TranslatorContext.Provider
+        value={{ textToBeTranslated, setTextToBeTranslated }}
+      >
+        <Translator />
+      </TranslatorContext.Provider>
     </>
   );
 }
